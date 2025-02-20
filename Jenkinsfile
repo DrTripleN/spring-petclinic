@@ -4,16 +4,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './mvnw clean install'
+                bat './mvnw clean install'
             }
         }
         stage('Code Coverage') {
             steps {
-                jacoco()
+                bat './mvnw test'
             }
             post {
                 always {
-                    jacoco execPattern: '**/target/*.exec'
+                    publishCoverage adapters: [jacocoAdapter('**/target/site/jacoco/jacoco.xml')]
                 }
             }
         }
